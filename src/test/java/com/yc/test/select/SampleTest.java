@@ -1,4 +1,4 @@
-package com.yc.test;
+package com.yc.test.select;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

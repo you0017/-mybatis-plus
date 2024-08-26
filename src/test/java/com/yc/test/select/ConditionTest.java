@@ -1,4 +1,4 @@
-package com.yc.test;
+package com.yc.test.select;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 public class ConditionTest {
@@ -91,4 +94,40 @@ public class ConditionTest {
         });
 
     }
+
+    @Test
+    public void test2() {
+        String name = "黄"; // 假设name变量是一个外部传入的参数
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.like(StringUtils.hasText(name), "name", name);
+        // 仅当 StringUtils.hasText(name) 为 true 时, 会拼接这个like语句到WHERE中
+        // 其实就是对下面代码的简化
+        if (StringUtils.hasText(name)) {
+            wrapper.like("name", name);
+        }
+
+    }
+    @Test
+    public void test3() {
+        User user = new User();
+        user.setName("黄主管");
+        user.setAge(28);
+        QueryWrapper<User> wrapper = new QueryWrapper<>(user);
+        List<User> users = userMapper.selectList(wrapper);
+
+        users.forEach(System.out::println);
+    }
+
+
+    @Test
+    public void test4() {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        Map<String, Object> param = new HashMap<>();
+        param.put("age", 40);
+        param.put("name", "黄飞飞");
+        wrapper.allEq(param);
+        List<User> users = userMapper.selectList(wrapper);
+        users.forEach(System.out::println);
+    }
+
 }

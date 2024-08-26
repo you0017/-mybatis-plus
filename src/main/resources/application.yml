@@ -8,4 +8,4 @@ spring:
 
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #??SQL????
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句和日志
